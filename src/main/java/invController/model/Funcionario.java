@@ -11,23 +11,22 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Empresa {
+public class Funcionario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String nomeFantasia;
-
-    @Column(unique = true, nullable = false)
-    private String cnpj;
+    @Column(unique = true)
+    private String nomeUsuario;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = true)
-    private String telefone;
+    @Column(nullable = false)
+    private String senha;
+    private boolean validado = false;
 
-    @Column(unique = true, nullable = false)
-    private Long codigoConvite;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 }

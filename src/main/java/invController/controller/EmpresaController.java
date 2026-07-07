@@ -1,9 +1,9 @@
 package invController.controller;
 
+import invController.model.Empresa;
 import invController.service.EmpresaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/empresa")
@@ -15,8 +15,23 @@ public class EmpresaController {
         this.empresaService = empresaService;
     }
 
-    @GetMapping
-    public String obterMensagem() {
-        return "Controller da Empresa funcionando!";
+    @PostMapping
+    public Empresa criarEmpresa(@RequestBody Empresa empresa) {
+        return empresaService.criarEmpresa(empresa);
+    }
+
+    @GetMapping("/listar")
+    public List<Empresa> listarEmpresas() {
+        return empresaService.listarEmpresas();
+    }
+
+    @GetMapping("/listar/{id}")
+    public Empresa buscarEmpresa(@PathVariable Long id) {
+        return empresaService.buscarEmpresa(id);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public Empresa deletarEmpresa(@PathVariable Long id){
+        return empresaService.deletarEmpresa(id);
     }
 }
