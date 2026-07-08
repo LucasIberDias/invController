@@ -20,18 +20,23 @@ public class EmpresaController {
         return empresaService.criarEmpresa(empresa);
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/empresa")
     public List<Empresa> listarEmpresas() {
         return empresaService.listarEmpresas();
     }
 
-    @GetMapping("/listar/{id}")
+    @GetMapping("/empresa/{id}")
     public Empresa buscarEmpresa(@PathVariable Long id) {
         return empresaService.buscarEmpresa(id);
     }
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/empresa/{id}")
     public Empresa deletarEmpresa(@PathVariable Long id){
         return empresaService.deletarEmpresa(id);
+    }
+
+    @PutMapping("empresa/{id}")
+    public Empresa atualizarEmpresa(@PathVariable Long id, @RequestBody Empresa empresaAtualizada){
+        return  empresaService.atualizarEmpresa(id, empresaAtualizada);
     }
 }

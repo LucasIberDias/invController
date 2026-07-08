@@ -16,7 +16,7 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String nomeFantasia;
 
     @Column(unique = true, nullable = false)
@@ -25,9 +25,9 @@ public class Empresa {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = true)
+    @Column
     private String telefone;
 
     @Column(unique = true, nullable = false)
-    private Long codigoConvite;
+    private String codigoAcesso;
 }
