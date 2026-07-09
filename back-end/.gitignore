@@ -1,6 +1,6 @@
 # Maven
-target/
-!.mvn/wrapper/maven-wrapper.jar
+../target/
+!back-end/.mvn/wrapper/maven-wrapper.jar
 
 # Spring Tool Suite (STS)
 .apt_generated
@@ -12,7 +12,7 @@ target/
 .sts4-cache/
 
 # IntelliJ IDEA
-.idea/
+back-end/.idea/
 *.iml
 *.ipr
 *.iws
