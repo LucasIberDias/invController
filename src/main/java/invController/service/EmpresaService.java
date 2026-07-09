@@ -16,7 +16,10 @@ public class EmpresaService {
     }
 
     public Empresa criarEmpresa(Empresa empresa) {
+        validarEmpresa(empresa);
+
         empresa.setCodigoAcesso(gerarCodigoAcesso());
+
         return empresaRepository.save(empresa);
     }
 
@@ -45,6 +48,8 @@ public class EmpresaService {
         empresa.setEmail(empresaAtualizada.getEmail());
         empresa.setTelefone(empresaAtualizada.getTelefone());
 
+        validarEmpresa(empresa);
+
         return empresaRepository.save(empresa);
     }
 
@@ -59,5 +64,19 @@ public class EmpresaService {
         }while (empresaRepository.existsByCodigoAcesso(codigo));
 
         return codigo;
+    }
+
+    private void validarEmpresa(Empresa empresa) {
+        if (empresaRepository.existsByCnpj(empresa.getCnpj())) {
+            throw new RuntimeException("CNPJ já cadastrado.");
+        }
+
+        if (empresaRepository.existsByEmail(empresa.getEmail())) {
+            throw new RuntimeException("E-mail já cadastrado.");
+        }
+
+        if (empresa.getNomeFantasia().trim().isEmpty()){
+            throw new RuntimeException("Nome fantasia não pode ser vazio");
+        }
     }
 }

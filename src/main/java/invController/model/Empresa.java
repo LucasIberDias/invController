@@ -18,6 +18,7 @@ public class Empresa {
 
     @Column(nullable = false)
     private String nomeFantasia;
+    
 
     @Column(unique = true, nullable = false)
     private String cnpj;
