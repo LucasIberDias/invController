@@ -1,7 +1,7 @@
-import { Teste } from "@/components/Teste";
+import { AppRoutes } from "./routes/AppRoutes";
 
 function App() {
-    return <Teste />;
+    return <AppRoutes />;
 }
 
 export default App;
