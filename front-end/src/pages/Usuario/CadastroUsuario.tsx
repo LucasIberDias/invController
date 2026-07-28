@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "@/components/layout/AuthLayout";
 
@@ -14,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/forms/TextInput";
 
 export default function CadastroUsuario() {
+    const navigate = useNavigate();
+
     const [usuario, setUsuario] = useState({
         nome: "",
         cpf: "",
@@ -129,6 +132,7 @@ export default function CadastroUsuario() {
                         <Button
                             variant="outline"
                             className="flex-1"
+                            onClick={() => navigate("/")}
                         >
                             Voltar
                         </Button>
