@@ -32,6 +32,8 @@ public class EmpresaService {
         empresa.setTelefone(dto.getTelefone());
         empresa.setCodigoAcesso(gerarCodigoAcesso());
 
+        validarEmpresa(empresa);
+
         empresa = empresaRepository.save(empresa);
 
         Funcionario funcionario = new Funcionario();
@@ -98,8 +100,8 @@ public class EmpresaService {
             throw new RuntimeException("E-mail já cadastrado.");
         }
 
-        if (empresa.getNomeFantasia().trim().isEmpty()){
-            throw new RuntimeException("Nome fantasia não pode ser vazio");
+        if (empresa.getNomeFantasia().trim().isEmpty() || empresa.getCnpj().trim().isEmpty() || empresa.getEmail().trim().isEmpty() || empresa.getTelefone().trim().isEmpty()){
+            throw new RuntimeException("Não deve possuir campos vazios.");
         }
     }
 }
