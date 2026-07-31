@@ -1,9 +1,13 @@
 package invController.controller;
 
+import invController.dto.CadastroEmpresaDTO;
 import invController.model.Empresa;
 import invController.service.EmpresaService;
-import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/empresa")
@@ -15,28 +19,32 @@ public class EmpresaController {
         this.empresaService = empresaService;
     }
 
-    @PostMapping
-    public Empresa criarEmpresa(@RequestBody Empresa empresa) {
-        return empresaService.criarEmpresa(empresa);
+    @PostMapping("/cadastro")
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroEmpresaDTO dto) {
+
+        empresaService.cadastrar(dto);
+
+        return ResponseEntity.ok("Empresa cadastrada com sucesso!");
     }
 
-    @GetMapping("/empresa")
+    @GetMapping
     public List<Empresa> listarEmpresas() {
         return empresaService.listarEmpresas();
     }
 
-    @GetMapping("/empresa/{id}")
+    @GetMapping("/{id}")
     public Empresa buscarEmpresa(@PathVariable Long id) {
         return empresaService.buscarEmpresa(id);
     }
 
-    @DeleteMapping("/empresa/{id}")
-    public Empresa deletarEmpresa(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public Empresa deletarEmpresa(@PathVariable Long id) {
         return empresaService.deletarEmpresa(id);
     }
 
-    @PutMapping("empresa/{id}")
-    public Empresa atualizarEmpresa(@PathVariable Long id, @RequestBody Empresa empresaAtualizada){
-        return  empresaService.atualizarEmpresa(id, empresaAtualizada);
+    @PutMapping("/{id}")
+    public Empresa atualizarEmpresa(@PathVariable Long id,
+                                    @RequestBody Empresa empresaAtualizada) {
+        return empresaService.atualizarEmpresa(id, empresaAtualizada);
     }
 }

@@ -1,10 +1,13 @@
 package invController.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,6 +36,11 @@ public class Empresa {
     @Column(unique = true, nullable = false)
     private String codigoAcesso;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
-    private List<Funcionario> funcionarios;
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "empresa",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Funcionario> funcionarios = new ArrayList<>();
 }

@@ -1,8 +1,12 @@
 package invController.service;
 
 import java.util.UUID;
+
+import invController.dto.CadastroEmpresaDTO;
 import invController.model.Empresa;
+import invController.model.Funcionario;
 import invController.repository.EmpresaRepository;
+import invController.repository.FuncionarioRepository;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -10,17 +14,36 @@ import java.util.*;
 public class EmpresaService {
 
     private final EmpresaRepository empresaRepository;
+    private final FuncionarioRepository funcionarioRepository;
 
-    public EmpresaService(EmpresaRepository empresaRepository) {
+    public EmpresaService(EmpresaRepository empresaRepository,
+                          FuncionarioRepository funcionarioRepository) {
+
         this.empresaRepository = empresaRepository;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
-    public Empresa criarEmpresa(Empresa empresa) {
-        validarEmpresa(empresa);
+    public void cadastrar(CadastroEmpresaDTO dto){
+        Empresa empresa = new Empresa();
 
+        empresa.setNomeFantasia(dto.getNomeFantasia());
+        empresa.setCnpj(dto.getCnpj());
+        empresa.setEmail(dto.getEmailEmpresa());
+        empresa.setTelefone(dto.getTelefone());
         empresa.setCodigoAcesso(gerarCodigoAcesso());
 
-        return empresaRepository.save(empresa);
+        empresa = empresaRepository.save(empresa);
+
+        Funcionario funcionario = new Funcionario();
+
+        funcionario.setNomeUsuario(dto.getNomeUsuario());
+        funcionario.setEmail(dto.getEmailUsuario());
+        funcionario.setSenha(dto.getSenha());
+        funcionario.setAdmin(true);
+        funcionario.setValidado(true);
+        funcionario.setEmpresa(empresa);
+
+        funcionarioRepository.save(funcionario);
     }
 
     public List<Empresa> listarEmpresas() {
