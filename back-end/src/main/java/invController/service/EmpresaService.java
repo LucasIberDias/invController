@@ -2,6 +2,7 @@ package invController.service;
 
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
 import invController.dto.CadastroEmpresaDTO;
 import invController.model.Empresa;
 import invController.model.Funcionario;
@@ -23,6 +24,8 @@ public class EmpresaService {
         this.funcionarioRepository = funcionarioRepository;
     }
 
+
+    @Transactional
     public void cadastrar(CadastroEmpresaDTO dto){
         Empresa empresa = new Empresa();
 
