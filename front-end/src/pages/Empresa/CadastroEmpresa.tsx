@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/forms/TextInput";
 
+import { cadastrarEmpresa } from "@/services/empresaService";
+
 export default function CadastroEmpresa() {
     const navigate = useNavigate();
 
@@ -23,35 +25,63 @@ export default function CadastroEmpresa() {
         nomeFantasia: "",
         cnpj: "",
         email: "",
-        telefone: ""
+        telefone: "",
     });
 
     const [usuario, setUsuario] = useState({
         nome: "",
-        cpf: "",
         email: "",
         senha: "",
-        confirmarSenha: ""
+        confirmarSenha: "",
     });
+
+    async function handleCadastrar() {
+        if (usuario.senha !== usuario.confirmarSenha) {
+            alert("As senhas não coincidem.");
+            return;
+        }
+
+        const dados = {
+            nomeFantasia: empresa.nomeFantasia,
+            cnpj: empresa.cnpj,
+            emailEmpresa: empresa.email,
+            telefone: empresa.telefone,
+
+            nomeUsuario: usuario.nome,
+            emailUsuario: usuario.email,
+            senha: usuario.senha,
+        };
+
+        try {
+            await cadastrarEmpresa(dados);
+
+            alert("Empresa cadastrada com sucesso!");
+
+            navigate("/login");
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao cadastrar empresa.");
+        }
+    }
 
     return (
         <AuthLayout>
             <Card>
-
                 <CardHeader>
                     <CardTitle>
-                        {etapa === 1 ? "Cadastro da Empresa" : "Usuario"}
+                        {etapa === 1
+                            ? "Cadastro da Empresa"
+                            : "Administrador"}
                     </CardTitle>
 
                     <CardDescription>
                         {etapa === 1
                             ? "Cadastre sua empresa para começar."
-                            : "Agora crie o primeiro usuario da empresa."}
+                            : "Agora crie o primeiro administrador da empresa."}
                     </CardDescription>
                 </CardHeader>
 
                 <CardContent className="space-y-5">
-
                     {etapa === 1 ? (
                         <>
                             <TextInput
@@ -111,9 +141,9 @@ export default function CadastroEmpresa() {
                                 <Button
                                     variant="outline"
                                     className="flex-1"
-                                    onClick={() => navigate("/cadastro")}
+                                    onClick={() => navigate("/login")}
                                 >
-                                    Cadastrar Usuario
+                                    Já tenho conta
                                 </Button>
 
                                 <Button
@@ -129,25 +159,12 @@ export default function CadastroEmpresa() {
                             <TextInput
                                 id="nomeUsuario"
                                 label="Nome"
-                                placeholder="Nome do Usuario"
+                                placeholder="Nome do administrador"
                                 value={usuario.nome}
                                 onChange={(e) =>
                                     setUsuario({
                                         ...usuario,
                                         nome: e.target.value,
-                                    })
-                                }
-                            />
-
-                            <TextInput
-                                id="cpf"
-                                label="CPF"
-                                placeholder="000.000.000-00"
-                                value={usuario.cpf}
-                                onChange={(e) =>
-                                    setUsuario({
-                                        ...usuario,
-                                        cpf: e.target.value,
                                     })
                                 }
                             />
@@ -205,13 +222,13 @@ export default function CadastroEmpresa() {
 
                                 <Button
                                     className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                                    onClick={handleCadastrar}
                                 >
                                     Cadastrar
                                 </Button>
                             </div>
                         </>
                     )}
-
                 </CardContent>
             </Card>
         </AuthLayout>

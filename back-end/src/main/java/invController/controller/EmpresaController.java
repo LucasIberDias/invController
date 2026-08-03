@@ -3,7 +3,7 @@ package invController.controller;
 import invController.dto.CadastroEmpresaDTO;
 import invController.model.Empresa;
 import invController.service.EmpresaService;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,31 +20,37 @@ public class EmpresaController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<?> cadastrar(@RequestBody CadastroEmpresaDTO dto) {
+    public ResponseEntity<String> cadastrar(@RequestBody CadastroEmpresaDTO dto) {
 
         empresaService.cadastrar(dto);
 
-        return ResponseEntity.ok("Empresa cadastrada com sucesso!");
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("Empresa cadastrada com sucesso!");
     }
 
     @GetMapping
-    public List<Empresa> listarEmpresas() {
-        return empresaService.listarEmpresas();
+    public ResponseEntity<List<Empresa>> listarEmpresas() {
+        return ResponseEntity.ok(empresaService.listarEmpresas());
     }
 
     @GetMapping("/{id}")
-    public Empresa buscarEmpresa(@PathVariable Long id) {
-        return empresaService.buscarEmpresa(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public Empresa deletarEmpresa(@PathVariable Long id) {
-        return empresaService.deletarEmpresa(id);
+    public ResponseEntity<Empresa> buscarEmpresa(@PathVariable Long id) {
+        return ResponseEntity.ok(empresaService.buscarEmpresa(id));
     }
 
     @PutMapping("/{id}")
-    public Empresa atualizarEmpresa(@PathVariable Long id,
-                                    @RequestBody Empresa empresaAtualizada) {
-        return empresaService.atualizarEmpresa(id, empresaAtualizada);
+    public ResponseEntity<Empresa> atualizarEmpresa(
+            @PathVariable Long id,
+            @RequestBody Empresa empresaAtualizada) {
+
+        return ResponseEntity.ok(
+                empresaService.atualizarEmpresa(id, empresaAtualizada)
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Empresa> deletarEmpresa(@PathVariable Long id) {
+        return ResponseEntity.ok(empresaService.deletarEmpresa(id));
     }
 }

@@ -1,13 +1,6 @@
-import { api } from "@/lib/api";
+import api from "@/lib/api";
 
-export const empresaService = {
-
-    listar() {
-        return api.get("/empresa/listar");
-    },
-
-    cadastrar(dados: any) {
-        return api.post("/empresa", dados);
-    }
-
-};
+export async function cadastrarEmpresa(dados: any) {
+    const response = await api.post("/empresa/cadastro", dados);
+    return response.data;
+}
